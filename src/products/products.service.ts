@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
@@ -9,8 +9,9 @@ export class ProductsService {
   }
 
   findAll() {
-    return `This action returns all products`;
+throw new UnauthorizedException('მოხდა შეცდომა');
   }
+  
 
   findOne(id: number) {
     return `This action returns a #${id} product`;

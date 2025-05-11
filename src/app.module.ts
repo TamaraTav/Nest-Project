@@ -1,4 +1,4 @@
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductsModule } from './products/products.module';
@@ -15,6 +15,8 @@ export class AppModule implements NestModule {
     consumer
       .apply(LoggerMiddleware)
       .forRoutes('products');
+      //{path: 'products', method: RequestMethod.GET} 
+      //ასე თუ ჩავუწერ, დავუკონკრეტებ პასს და მეთოდს
   }
 }
 
