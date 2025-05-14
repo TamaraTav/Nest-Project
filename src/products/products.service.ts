@@ -8,7 +8,20 @@ export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
   create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+    try {
+      return this.prisma.products.create({
+        data: {
+          ...createProductDto,
+          category: {
+            connect: {
+              id: parseInt(createProductDto.category),
+            },
+          },
+        },
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   async findAll() {
@@ -21,11 +34,19 @@ export class ProductsService {
     });
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
+  // update(id: number, updateProductDto: UpdateProductDto) {
+  //   return this.prisma.products.update({
+  //     where: { id },
+  //     data: updateProductDto,
+  //     include: {
+  //       category: true,
+  //     },
+  //   });
+  // }
 
   remove(id: number) {
-    return `This action removes a #${id} product`;
+    return this.prisma.products.delete({
+      where: { id },
+    });
   }
 }
