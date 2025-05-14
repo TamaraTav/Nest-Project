@@ -1,20 +1,24 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class ProductsService {
+  constructor(private readonly prisma: PrismaService) {}
+
   create(createProductDto: CreateProductDto) {
     return 'This action adds a new product';
   }
 
-  findAll() {
-throw new UnauthorizedException('მოხდა შეცდომა');
+  async findAll() {
+    return this.prisma.products.findMany();
   }
-  
 
   findOne(id: number) {
-    return `This action returns a #${id} product`;
+    return this.prisma.products.findUnique({
+      where: { id },
+    });
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
