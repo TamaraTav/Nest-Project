@@ -7,16 +7,28 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto) {
     try {
+      const { categoryId, ...productData } = createProductDto;
+      const category = await this.prisma.category.findUnique({
+        where: {
+          id: categoryId,
+        },
+      });
+
+      if (!category) {
+        throw new Error('Category not found');
+      }
+
       return this.prisma.products.create({
         data: {
-          ...createProductDto,
+          ...productData,
           category: {
             connect: {
-              id: parseInt(createProductDto.category),
+              id: categoryId,
             },
           },
+          created_at: new Date(),
         },
       });
     } catch (error) {
