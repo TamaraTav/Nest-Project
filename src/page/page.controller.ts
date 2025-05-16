@@ -1,5 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { PageService } from '../pages/page.service';
+import { PageService } from './page.service';
 
 @Controller('page')
 export class PageController {
@@ -11,7 +11,7 @@ export class PageController {
   }
 
   @Get(':id')
-  getOnePage(@Param('id') id: string): string {
+  getOnePage(@Param('id') id: string): any {
     return this.service.getPage(+id);
   }
 }
