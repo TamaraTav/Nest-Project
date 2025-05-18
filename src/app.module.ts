@@ -14,9 +14,27 @@ import { PageController } from './page/page.controller';
 import { ProductsController } from './products/products.controller';
 import { PageService } from './page/page.service';
 import { PageModule } from './page/page.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [ProductsModule, PrismaModule, PageModule],
+  imports: [
+    ProductsModule,
+    PrismaModule,
+    PageModule,
+
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'root',
+      password: 'root123',
+      database: 'ecommerce',
+      entities: [__dirname + '/**/entity/*.entity{.ts,.js}'],
+      synchronize: true,
+      logging: true,
+      autoLoadEntities: true,
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
