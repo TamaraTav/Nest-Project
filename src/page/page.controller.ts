@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Render } from '@nestjs/common';
 import { PageService } from './page.service';
 
 @Controller('page')
@@ -6,7 +6,8 @@ export class PageController {
   constructor(private readonly service: PageService) {}
 
   @Get()
-  getAllPages(): string {
+  @Render('pages')
+  getAllPages(): any {
     return this.service.getAllPages();
   }
 
